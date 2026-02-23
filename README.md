@@ -12,7 +12,7 @@ Binary Mosaic is a static, browser-only classroom decode game for teaching binar
 1. Open `index.html` in any modern browser.
 2. Read the built-in tutorial and click **Start levels**.
 3. Students decode using the side legend (`bits -> colour`) and paint the large central grid (paint mode on every level).
-4. First 5 levels include prefilled hint cells; each level gives fewer hints.
+4. First 5 levels include prefilled hint cells; each level gives fewer hints, and all hint cells are editable.
 5. Last 3 levels are fully blank (no hints).
 6. Click **Check** to validate; a successful level auto-advances.
 7. Timer shows total run time across all levels.

@@ -11,7 +11,6 @@
       targetCells: [],
       playerCells: [],
       bitTokens: [],
-      locked: new Set(),
       selectedValue: 0,
       cursorIndex: 0,
       mode: 'idle',
@@ -111,8 +110,7 @@
       cell.classList.toggle('token-dark', state.decode.playerCells[idx] > 1);
       cell.addEventListener('click', () => {
         if (state.decode.mode !== 'challenge') return;
-        if (state.decode.locked.has(idx)) return;
-        state.decode.playerCells[idx] = state.decode.selectedValue;
+          state.decode.playerCells[idx] = state.decode.selectedValue;
         state.decode.cursorIndex = idx;
         renderDecodeGrid();
       });
@@ -153,12 +151,10 @@
     state.decode.selectedValue = 0;
     state.decode.cursorIndex = 0;
     state.decode.mode = 'challenge';
-    state.decode.locked = new Set();
 
     const fillIdx = pickPrefilledIndices(preset.cells.length, preset.prefillCount || 0);
     fillIdx.forEach((idx) => {
       state.decode.playerCells[idx] = state.decode.targetCells[idx];
-      state.decode.locked.add(idx);
     });
 
     const hints = preset.prefillCount || 0;
@@ -207,9 +203,7 @@
     else if (event.key === 'ArrowRight' && col < size - 1) state.decode.cursorIndex += 1;
     else if (event.key === ' ' || event.key === 'Enter') {
       if (state.decode.mode !== 'challenge') return;
-      if (!state.decode.locked.has(state.decode.cursorIndex)) {
-        state.decode.playerCells[state.decode.cursorIndex] = state.decode.selectedValue;
-      }
+      state.decode.playerCells[state.decode.cursorIndex] = state.decode.selectedValue;
     } else return;
 
     event.preventDefault();
