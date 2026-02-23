@@ -85,6 +85,7 @@
     el.decodeGrid.classList.remove('level-success');
     void el.decodeGrid.offsetWidth;
     el.decodeGrid.classList.add('level-success');
+    setTimeout(() => el.decodeGrid.classList.remove('level-success'), 550);
   }
 
   function renderDecodeLegend() {
@@ -173,6 +174,7 @@
   }
 
   function loadLevel(index) {
+    el.decodeGrid.classList.remove('level-success');
     if (index >= window.BINARY_MOSAIC_PRESETS.length) {
       state.decode.completed = true;
       clearInterval(state.decode.timerId);
