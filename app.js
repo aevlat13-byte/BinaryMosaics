@@ -141,6 +141,10 @@
     }
 
     const preset = window.BINARY_MOSAIC_PRESETS[index];
+    if (preset.mode && preset.mode !== 'paint') {
+      setStatus(el.decodeStatus, 'Only paint-mode levels are supported in this version.', true);
+      return;
+    }
     const codes = bitCodes();
     state.decode.levelIndex = index;
     state.decode.size = preset.size;

@@ -13,6 +13,7 @@ window.BINARY_MOSAIC_PRESETS = (() => {
   return [
     {
       title: 'Level 1',
+      mode: 'paint',
       ...fromRows([
         '00011000',
         '00133100',
@@ -26,6 +27,7 @@ window.BINARY_MOSAIC_PRESETS = (() => {
     },
     {
       title: 'Level 2',
+      mode: 'paint',
       ...fromRows([
         '00100100',
         '01333310',
@@ -39,6 +41,7 @@ window.BINARY_MOSAIC_PRESETS = (() => {
     },
     {
       title: 'Level 3',
+      mode: 'paint',
       ...fromRows([
         '000111100000',
         '001333331000',
@@ -56,6 +59,7 @@ window.BINARY_MOSAIC_PRESETS = (() => {
     },
     {
       title: 'Level 4',
+      mode: 'paint',
       ...fromRows([
         '333333333333',
         '322222222223',
@@ -73,6 +77,7 @@ window.BINARY_MOSAIC_PRESETS = (() => {
     },
     {
       title: 'Level 5',
+      mode: 'paint',
       ...fromRows([
         '0000000111100000',
         '0000011222210000',
@@ -94,6 +99,7 @@ window.BINARY_MOSAIC_PRESETS = (() => {
     },
     {
       title: 'Level 6',
+      mode: 'paint',
       ...fromRows([
         '0000110000110000',
         '0001111001111000',
@@ -115,6 +121,7 @@ window.BINARY_MOSAIC_PRESETS = (() => {
     },
     {
       title: 'Level 7',
+      mode: 'paint',
       ...fromRows([
         '0000011111000000',
         '0001333333310000',
@@ -136,6 +143,7 @@ window.BINARY_MOSAIC_PRESETS = (() => {
     },
     {
       title: 'Level 8',
+      mode: 'paint',
       ...fromRows([
         '3333333333333333',
         '3222222222222223',
