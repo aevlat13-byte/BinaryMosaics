@@ -101,32 +101,18 @@
           <details class="tutorial-box" id="decodeTutorial" open>
             <summary>Decode Challenge Tutorial <span class="help-icon">?</span></summary>
             <ol>
-              <li>Read the legend and bitstream shown for the current level.</li>
-              <li>Click <strong>Start levels</strong> to begin at Level 1 (easiest).</li>
-              <li>Paint the blank grid by decoding the bits. The image reveals as you paint.</li>
-              <li>Click each square to paint one cell at a time (no brush dragging).</li>
-              <li>Press <strong>Check</strong> to test your decoded picture.</li>
-              <li>If correct, the game automatically moves to the next level.</li>
+              <li>Press <strong>Start levels</strong> to begin at Level 1.</li>
+              <li>Look at each binary token shown inside the grid cells.</li>
+              <li>Use the legend on the side to choose the correct paint colour for that token.</li>
+              <li>Click a cell to paint one square at a time and reveal the image.</li>
+              <li>Press <strong>Check</strong>; if correct, the game auto-advances.</li>
             </ol>
           </details>
 
           <button id="startLevelsBtn">Start levels</button>
+          <button id="startChallengeBtn">Reset current level</button>
+          <button id="checkChallengeBtn">Check</button>
           <p id="levelStatus" class="status"></p>
-
-          <label>
-            Legend (provided)
-            <textarea id="legendInput" rows="5" readonly></textarea>
-          </label>
-
-          <label>
-            Bitstream (provided)
-            <textarea id="bitstreamInput" rows="7" readonly></textarea>
-          </label>
-
-          <div class="tool-row">
-            <button id="startChallengeBtn">Rebuild challenge</button>
-            <button id="checkChallengeBtn">Check</button>
-          </div>
 
           <fieldset>
             <legend>Challenge controls</legend>
@@ -145,8 +131,14 @@
         </section>
 
         <section class="panel">
-          <h3>Decode canvas</h3>
-          <div id="decodeGrid" class="pixel-grid" tabindex="0" aria-label="Decode grid"></div>
+          <h3>Decode canvas (bitstream shown in cells)</h3>
+          <div class="decode-workspace">
+            <div id="decodeGrid" class="pixel-grid" tabindex="0" aria-label="Decode grid"></div>
+            <aside>
+              <h4>Legend</h4>
+              <div id="decodeLegend" class="legend-output" aria-live="polite"></div>
+            </aside>
+          </div>
           <p id="timerOutput">Timer: 0s</p>
         </section>
       </div>

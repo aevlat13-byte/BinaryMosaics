@@ -19,8 +19,8 @@ Binary Mosaic is a static, browser-only classroom game for teaching binary image
 3. In **Decode/Challenge**:
    - Read the built-in tutorial panel first.
    - Click **Start levels** to begin from easiest to hardest automatically.
-   - Pupils are given legend + bitstream only.
-   - Pupils decode by painting the blank canvas and revealing the image themselves.
+   - Bitstream tokens are displayed directly inside decode canvas cells.
+   - Pupils use the side legend to choose colours and paint matching cells.
    - Click **Check**; correct answers automatically move to the next level.
 
 ## Classroom tips
