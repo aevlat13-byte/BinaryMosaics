@@ -36,12 +36,14 @@ main {
   box-shadow: 0 8px 20px rgba(0,0,0,0.35);
 }
 
-.top-controls { margin-bottom: 1rem; }
-
 .tool-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.45rem;
+}
+
+.vertical-tools {
+  grid-template-columns: 1fr;
 }
 
 label, fieldset, button, textarea, select {
@@ -86,24 +88,6 @@ button { cursor: pointer; }
   outline: 3px solid var(--accent);
 }
 
-.canvas-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.canvas-meta {
-  display: grid;
-  grid-template-columns: minmax(220px, 340px) minmax(220px, 320px);
-  justify-content: center;
-  gap: 1rem;
-}
-
-.decode-workspace {
-  display: flex;
-  justify-content: center;
-}
-
 .pixel-grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-size), minmax(0, 1fr));
@@ -133,10 +117,6 @@ button { cursor: pointer; }
 
 .pixel-cell.wrong {
   box-shadow: inset 0 0 0 2px var(--wrong);
-}
-
-.pixel-cell.prefilled {
-  box-shadow: inset 0 0 0 2px #22c55e;
 }
 
 .token-cell {
@@ -216,7 +196,37 @@ button { cursor: pointer; }
 }
 
 @media (max-width: 900px) {
-  .canvas-meta { grid-template-columns: 1fr; }
   .tool-row { grid-template-columns: 1fr; }
   .pixel-grid { width: min(92vmin, 700px); }
+}
+
+.game-shell {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr minmax(210px, 260px);
+  gap: 1rem;
+  align-items: start;
+}
+
+.left-sidebar, .right-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.center-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.canvas-center {
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 1000px) {
+  .game-shell { grid-template-columns: 1fr; }
+  .right-sidebar { order: 3; }
+  .left-sidebar { order: 2; }
+  .center-stage { order: 1; }
 }

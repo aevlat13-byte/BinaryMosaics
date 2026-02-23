@@ -105,7 +105,6 @@
       cell.className = 'pixel-cell token-cell';
       if (idx === state.decode.cursorIndex) cell.classList.add('cursor');
       if (wrongIndexes.has(idx)) cell.classList.add('wrong');
-      if (state.decode.locked.has(idx)) cell.classList.add('prefilled');
 
       cell.style.background = palette[state.decode.playerCells[idx]];
       cell.textContent = state.decode.bitTokens[idx] || '';

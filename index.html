@@ -15,46 +15,45 @@
 
   <main>
     <section id="decodeTab" class="tab-panel active">
-      <div class="panel controls top-controls">
-        <details class="tutorial-box" id="decodeTutorial" open>
-          <summary>How to play <span class="help-icon">?</span></summary>
-          <ol>
-            <li>Press <strong>Start levels</strong> to begin.</li>
-            <li>Use the legend to map each bit token to a colour.</li>
-            <li>Some early levels have a few prefilled cells to help you start.</li>
-            <li>Later levels give fewer hints; last 3 are fully blank.</li>
-            <li>Paint each cell with your selected colour and press <strong>Check</strong>.</li>
-          </ol>
-        </details>
-
-        <div class="tool-row">
-          <button id="startLevelsBtn">Start levels</button>
-          <button id="startChallengeBtn">Reset current level</button>
-          <button id="checkChallengeBtn">Check</button>
-        </div>
-
-        <p id="levelStatus" class="status"></p>
-        <p id="decodeStatus" class="status" role="status" aria-live="polite"></p>
-        <p id="scoreOutput" class="status" aria-live="polite"></p>
-      </div>
-
-      <section class="panel canvas-panel">
-        <div class="canvas-meta">
+      <div class="panel game-shell">
+        <aside class="left-sidebar">
           <fieldset>
             <legend>Paint colour</legend>
             <div id="paintPalette" class="palette-row" aria-label="Choose decode paint colour"></div>
           </fieldset>
-          <aside>
-            <h4>Legend (bits → colour)</h4>
-            <div id="decodeLegend" class="legend-output" aria-live="polite"></div>
-          </aside>
-        </div>
+          <h4>Legend (bits → colour)</h4>
+          <div id="decodeLegend" class="legend-output" aria-live="polite"></div>
+        </aside>
 
-        <div class="canvas-center">
-          <div id="decodeGrid" class="pixel-grid big-grid" tabindex="0" aria-label="Decode grid"></div>
-        </div>
-        <p id="timerOutput">Total timer: 0s</p>
-      </section>
+        <section class="center-stage">
+          <details class="tutorial-box" id="decodeTutorial" open>
+            <summary>How to play <span class="help-icon">?</span></summary>
+            <ol>
+              <li>Press <strong>Start levels</strong> to begin.</li>
+              <li>Use the legend to map each bit token to a colour.</li>
+              <li>Some early levels have a few prefilled cells to help you start.</li>
+              <li>Later levels give fewer hints; last 3 are fully blank.</li>
+              <li>Paint each cell with your selected colour and press <strong>Check</strong>.</li>
+            </ol>
+          </details>
+
+          <div class="canvas-center">
+            <div id="decodeGrid" class="pixel-grid big-grid" tabindex="0" aria-label="Decode grid"></div>
+          </div>
+          <p id="timerOutput">Total timer: 0s</p>
+          <p id="levelStatus" class="status"></p>
+          <p id="decodeStatus" class="status" role="status" aria-live="polite"></p>
+          <p id="scoreOutput" class="status" aria-live="polite"></p>
+        </section>
+
+        <aside class="right-sidebar">
+          <div class="tool-row vertical-tools">
+            <button id="startLevelsBtn">Start levels</button>
+            <button id="checkChallengeBtn">Check</button>
+            <button id="startChallengeBtn">Reset current level</button>
+          </div>
+        </aside>
+      </div>
     </section>
   </main>
 
