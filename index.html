@@ -19,7 +19,7 @@
       <button class="tab-button" data-tab="decodeTab">Decode/Challenge</button>
     </nav>
 
-    <section id="encodeTab" class="tab-panel active" aria-labelledby="Create/Encode">
+    <section id="encodeTab" class="tab-panel active">
       <div class="panel-grid">
         <section class="panel controls">
           <h2>Create/Encode</h2>
@@ -55,8 +55,6 @@
 
           <button id="generateBtn">Generate Legend + Bitstream</button>
           <button id="copyExportBtn">Copy Legend + Bitstream</button>
-          <button id="copyShareCodeBtn">Copy Share Code</button>
-          <button id="copyShareLinkBtn">Copy Share Link</button>
 
           <div class="help-row">
             <details>
@@ -82,17 +80,15 @@
 
         <section class="panel output">
           <h3>Legend</h3>
-          <textarea id="legendOutput" rows="7" readonly></textarea>
+          <div id="legendOutput" class="legend-output" aria-live="polite"></div>
           <h3>Bitstream</h3>
           <label><input id="lineBreakRows" type="checkbox" checked /> Add line breaks per row</label>
           <textarea id="bitstreamOutput" rows="10" readonly></textarea>
-          <h3>Share Code</h3>
-          <textarea id="shareCodeOutput" rows="5" readonly></textarea>
         </section>
       </div>
     </section>
 
-    <section id="decodeTab" class="tab-panel" aria-labelledby="Decode/Challenge">
+    <section id="decodeTab" class="tab-panel">
       <div class="panel-grid">
         <section class="panel controls">
           <h2>Decode/Challenge</h2>
@@ -104,8 +100,8 @@
           </label>
 
           <label>
-            Legend input
-            <textarea id="legendInput" rows="5" placeholder="00=#000000\n01=#ffffff"></textarea>
+            Legend input (code=value index, e.g. 00=0)
+            <textarea id="legendInput" rows="5" placeholder="0=0\n1=1"></textarea>
           </label>
 
           <label>
@@ -113,16 +109,10 @@
             <textarea id="bitstreamInput" rows="7" placeholder="010101..."></textarea>
           </label>
 
-          <label>
-            Import Share Code
-            <textarea id="shareCodeInput" rows="4" placeholder="Paste share code here"></textarea>
-          </label>
-
           <div class="tool-row">
             <button id="renderBitsBtn">Render from bits</button>
             <button id="startChallengeBtn">Rebuild challenge</button>
             <button id="checkChallengeBtn">Check</button>
-            <button id="importShareBtn">Import share code</button>
           </div>
 
           <fieldset>

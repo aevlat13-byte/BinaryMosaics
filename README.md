@@ -4,8 +4,8 @@ Binary Mosaic is a static, browser-only classroom game for teaching binary image
 
 ## Files
 - `index.html` – app structure and UI.
-- `styles.css` – layout, responsive styles, high contrast mode.
-- `app.js` – game logic, encode/decode, validation, sharing, scoring, accessibility controls.
+- `styles.css` – layout, responsive styles, high contrast mode, legend swatches.
+- `app.js` – game logic, encode/decode, validation, scoring, accessibility controls.
 - `puzzles.js` – built-in puzzle definitions.
 
 ## Teacher quick start
@@ -15,9 +15,10 @@ Binary Mosaic is a static, browser-only classroom game for teaching binary image
    - Choose 1-bit or 2-bit palette.
    - Paint with mouse/touch or keyboard (arrows + space/enter).
    - Generate legend + bitstream.
-   - Copy share code or share link.
+   - Legend is shown with coloured swatches (not hex colour codes).
 3. In **Decode/Challenge**:
-   - Paste a legend + bitstream, or import a share code.
+   - Paste a legend and bitstream.
+   - Legend format is `binary=value`, e.g. `0=0`, `1=1` for 1-bit, or `00=0`, `01=1`, `10=2`, `11=3` for 2-bit.
    - Use **Render from bits** to decode directly.
    - Use **Rebuild challenge** so pupils reconstruct on an empty grid and click **Check**.
 
@@ -43,7 +44,7 @@ In `puzzles.js`, add/edit puzzle objects:
 - 2 hard: 16x16, 2-bit
 
 ## Validation included
-- Legend format checking (`bits=#hexcolour`).
+- Legend format checking (`bits=valueIndex`).
 - Bitstream length checking against grid size and bit depth.
 - Friendly error messages shown in the UI status areas.
 
