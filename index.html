@@ -3,116 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Binary Mosaic</title>
+  <title>Binary Mosaic Decode Game</title>
   <link rel="icon" href="data:," />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="app-header">
-    <h1>Binary Mosaic</h1>
-    <p>Create, encode, decode, and challenge classmates with binary pixel art.</p>
+    <h1>Binary Mosaic: Decode Challenge</h1>
+    <p>Decode the bitstream by painting the grid using the legend.</p>
   </header>
 
   <main>
-    <nav class="tab-bar" aria-label="Main sections">
-      <button class="tab-button active" data-tab="encodeTab">Create/Encode</button>
-      <button class="tab-button" data-tab="decodeTab">Decode/Challenge</button>
-    </nav>
-
-    <section id="encodeTab" class="tab-panel active">
-      <div class="panel-grid">
-        <section class="panel controls">
-          <h2>Create/Encode</h2>
-          <label>
-            Grid size
-            <select id="encodeGridSize">
-              <option value="8">8 x 8</option>
-              <option value="12">12 x 12</option>
-              <option value="16" selected>16 x 16</option>
-            </select>
-          </label>
-
-          <fieldset>
-            <legend>Palette size</legend>
-            <label><input type="radio" name="encodeBitDepth" value="1" checked /> 2 colours (1-bit)</label>
-            <label><input type="radio" name="encodeBitDepth" value="2" /> 4 colours (2-bit)</label>
-          </fieldset>
-
-          <fieldset>
-            <legend>Tools</legend>
-            <div class="tool-row">
-              <button id="toolPaint" class="active">Paint</button>
-              <button id="toolEraser">Eraser</button>
-              <button id="fillAllBtn">Fill all</button>
-              <button id="clearGridBtn">Clear grid</button>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Colours</legend>
-            <div id="encodePalette" class="palette-row" aria-label="Choose paint colour"></div>
-          </fieldset>
-
-          <h3>Student answer input</h3>
-          <label>
-            Legend answer (e.g. 0=0, 1=1)
-            <textarea id="studentLegendInput" rows="5" placeholder="0=0&#10;1=1"></textarea>
-          </label>
-          <label>
-            Bitstream answer
-            <textarea id="studentBitstreamInput" rows="7" placeholder="Type your bitstream here"></textarea>
-          </label>
-          <button id="checkEncodeAnswerBtn">Check my legend + bitstream</button>
-
-          <div class="help-row">
-            <details>
-              <summary>What is a bitstream? <span class="help-icon">?</span></summary>
-              <p>A bitstream is the binary data for every pixel in order. 1-bit uses 0/1 per pixel; 2-bit uses 00/01/10/11.</p>
-            </details>
-            <details>
-              <summary>What is row-major order? <span class="help-icon">?</span></summary>
-              <p>Read each row from left to right, then move to the next row top-to-bottom.</p>
-            </details>
-            <details>
-              <summary>Why do 4 colours need 2 bits? <span class="help-icon">?</span></summary>
-              <p>Two bits can represent four values: 00, 01, 10, and 11.</p>
-            </details>
-          </div>
-          <p id="encodeStatus" class="status" role="status" aria-live="polite"></p>
-        </section>
-
-        <section class="panel">
-          <h3>Canvas</h3>
-          <div id="encodeGrid" class="pixel-grid" tabindex="0" aria-label="Encode drawing grid"></div>
-        </section>
-
-        <section class="panel output">
-          <h3>Reference Legend (for teacher checking)</h3>
-          <div id="legendOutput" class="legend-output" aria-live="polite"></div>
-        </section>
-      </div>
-    </section>
-
-    <section id="decodeTab" class="tab-panel">
+    <section id="decodeTab" class="tab-panel active">
       <div class="panel-grid">
         <section class="panel controls">
           <h2>Decode/Challenge</h2>
 
           <details class="tutorial-box" id="decodeTutorial" open>
-            <summary>Decode Challenge Tutorial <span class="help-icon">?</span></summary>
+            <summary>How to play <span class="help-icon">?</span></summary>
             <ol>
-              <li>Press <strong>Start levels</strong> to begin at Level 1.</li>
-              <li>Look at each binary token shown inside the grid cells.</li>
-              <li>Use the legend on the side to choose the correct paint colour for that token.</li>
-              <li>Click a cell to paint one square at a time and reveal the image.</li>
-              <li>Press <strong>Check</strong>; if correct, the game auto-advances.</li>
+              <li>Press <strong>Start levels</strong> to begin from easiest to hardest.</li>
+              <li>Each grid cell shows a bit token from the bitstream.</li>
+              <li>Use the legend to see which bits map to which colours.</li>
+              <li>Choose your current paint colour in <strong>Paint colour</strong>.</li>
+              <li>Click cells to paint and reveal the image.</li>
+              <li>Press <strong>Check</strong>. If correct, the game moves to the next level.</li>
             </ol>
           </details>
 
-          <button id="startLevelsBtn">Start levels</button>
-          <button id="startChallengeBtn">Reset current level</button>
-          <button id="checkChallengeBtn">Check</button>
+          <div class="tool-row">
+            <button id="startLevelsBtn">Start levels</button>
+            <button id="startChallengeBtn">Reset current level</button>
+            <button id="checkChallengeBtn">Check</button>
+          </div>
           <p id="levelStatus" class="status"></p>
+
+          <fieldset>
+            <legend>Paint colour</legend>
+            <div id="paintPalette" class="palette-row" aria-label="Choose decode paint colour"></div>
+          </fieldset>
 
           <fieldset>
             <legend>Challenge controls</legend>
@@ -131,11 +60,11 @@
         </section>
 
         <section class="panel">
-          <h3>Decode canvas (bitstream shown in cells)</h3>
+          <h3>Decode canvas (bitstream in cells)</h3>
           <div class="decode-workspace">
             <div id="decodeGrid" class="pixel-grid" tabindex="0" aria-label="Decode grid"></div>
             <aside>
-              <h4>Legend</h4>
+              <h4>Legend (bits → colour)</h4>
               <div id="decodeLegend" class="legend-output" aria-live="polite"></div>
             </aside>
           </div>

@@ -1,27 +1,21 @@
-# Binary Mosaic web game
+# Binary Mosaic decode game
 
-Binary Mosaic is a static, browser-only classroom game for teaching binary image representation.
+Binary Mosaic is a static, browser-only classroom decode game for teaching binary image representation.
 
 ## Files
-- `index.html` – app structure and UI.
+- `index.html` – decode game UI.
 - `styles.css` – layout, responsive styles, high contrast mode, legend swatches.
-- `app.js` – game logic, level progression, validation, scoring, accessibility controls.
+- `app.js` – decode gameplay logic, level progression, validation, scoring, accessibility controls.
 - `puzzles.js` – built-in puzzle definitions.
 
 ## Teacher quick start
 1. Open `index.html` in any modern browser.
-2. In **Create/Encode**:
-   - Choose grid size: 8x8, 12x12, 16x16.
-   - Choose 1-bit or 2-bit palette.
-   - Click cells to paint one at a time (no brush drag painting).
-   - Pupils type their own legend + bitstream answers.
-   - Click **Check my legend + bitstream** for feedback.
-3. In **Decode/Challenge**:
-   - Read the built-in tutorial panel first.
-   - Click **Start levels** to begin from easiest to hardest automatically.
-   - Bitstream tokens are displayed directly inside decode canvas cells.
-   - Pupils use the side legend to choose colours and paint matching cells.
-   - Click **Check**; correct answers automatically move to the next level.
+2. Read the built-in tutorial in the Decode panel.
+3. Click **Start levels** to begin from easiest to hardest.
+4. Students read bit tokens shown directly in each canvas cell.
+5. Students use the side legend (`bits -> colour`) and pick their current paint colour.
+6. Students click cells to paint and reveal the image.
+7. Click **Check**; correct answers auto-advance to the next level.
 
 ## Classroom tips
 - Start with level 1 (8x8, 1-bit) and progress in order.
@@ -38,9 +32,8 @@ In `puzzles.js`, add/edit puzzle objects:
 - `title`, `size`, `bitDepth`, `cells`.
 
 ## Validation included
-- Legend format checking (`bits=valueIndex`).
-- Bitstream length checking against grid size and bit depth.
-- Friendly error messages shown in UI status areas.
+- Friendly status/error feedback in the UI.
+- Check compares painted cells with expected level cells.
 
 ## GitHub Pages deployment
 1. Push to GitHub.
