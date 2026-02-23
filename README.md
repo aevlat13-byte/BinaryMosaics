@@ -1,6 +1,6 @@
 # Binary Mosaic decode game
 
-Binary Mosaic is a static, browser-only classroom decode game for teaching binary image representation with video game themed pixel levels.
+Binary Mosaic is a static, browser-only classroom decode game for teaching binary image representation.
 
 ## Files
 - `index.html` – decode game UI.
@@ -11,9 +11,9 @@ Binary Mosaic is a static, browser-only classroom decode game for teaching binar
 ## Teacher quick start
 1. Open `index.html` in any modern browser.
 2. Read the built-in tutorial in the Decode panel.
-3. Click **Start levels** to begin from easiest to hardest (Mario, Zelda, Minecraft, and more).
+3. Click **Start levels** to begin from easiest to hardest.
 4. Students read bit tokens shown directly in each canvas cell.
-5. Students use the side legend (`bits -> colour`) and pick their current paint colour (no white paint is used).
+5. Students use the side legend (`bits -> colour`) and pick their current paint colour (none of the paint colours are white).
 6. Students click cells to paint and reveal the image.
 7. Click **Check**; correct answers auto-advance to the next level.
 

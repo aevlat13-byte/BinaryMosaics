@@ -148,7 +148,7 @@
     state.decode.cursorIndex = 0;
     state.decode.mode = 'challenge';
 
-    el.levelStatus.textContent = `Level ${index + 1} of ${window.BINARY_MOSAIC_PRESETS.length}: ${preset.title}`;
+    el.levelStatus.textContent = `Level ${index + 1} of ${window.BINARY_MOSAIC_PRESETS.length}`;
     el.scoreOutput.textContent = '';
     renderDecodeLegend();
     renderPaintPalette();

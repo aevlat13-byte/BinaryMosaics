@@ -108,7 +108,7 @@ textarea, select, button {
   grid-template-columns: repeat(var(--grid-size), minmax(0, 1fr));
   gap: 1px;
   border: 1px solid var(--grid-line);
-  background: var(--grid-line);
+  background: #ffffff;
   user-select: none;
   touch-action: none;
 }
