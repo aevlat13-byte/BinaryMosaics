@@ -1,10 +1,11 @@
 :root {
-  --bg: #f5f7fb;
-  --panel: #ffffff;
-  --text: #1f2937;
-  --accent: #2563eb;
-  --grid-line: #d1d5db;
-  --wrong: #dc2626;
+  --bg: #0b1020;
+  --panel: #151d33;
+  --panel-2: #1d2744;
+  --text: #e5ecff;
+  --accent: #60a5fa;
+  --grid-line: #37446a;
+  --wrong: #ef4444;
 }
 
 body {
@@ -17,6 +18,7 @@ body {
 body.high-contrast {
   --bg: #000;
   --panel: #111;
+  --panel-2: #191919;
   --text: #fff;
   --accent: #ffde00;
   --grid-line: #666;
@@ -69,11 +71,11 @@ button.active {
   background: var(--panel);
   border-radius: 10px;
   padding: 1rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
 }
 
 label, fieldset, button, textarea, select { display: block; width: 100%; margin-bottom: 0.6rem; }
-fieldset { border: 1px solid var(--grid-line); border-radius: 8px; }
+fieldset { border: 1px solid var(--grid-line); border-radius: 8px; background: color-mix(in srgb, var(--panel) 85%, #000 15%); }
 fieldset label { width: auto; display: block; margin: 0.4rem 0; }
 textarea, select, button {
   font-size: 0.95rem;
@@ -81,6 +83,8 @@ textarea, select, button {
   border: 1px solid var(--grid-line);
   border-radius: 6px;
   box-sizing: border-box;
+  background: var(--panel-2);
+  color: var(--text);
 }
 
 .tool-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.4rem; }
