@@ -4,36 +4,32 @@ Binary Mosaic is a static, browser-only classroom decode game for teaching binar
 
 ## Files
 - `index.html` – decode game UI.
-- `styles.css` – layout, responsive styles, high contrast mode, legend swatches.
-- `app.js` – decode gameplay logic, level progression, validation, scoring, accessibility controls.
+- `styles.css` – dark theme layout, centered large canvas, legend swatches.
+- `app.js` – decode gameplay logic, level progression, total-run timer, validation.
 - `puzzles.js` – built-in puzzle definitions.
 
 ## Teacher quick start
 1. Open `index.html` in any modern browser.
-2. Read the built-in tutorial in the Decode panel.
-3. Click **Start levels** to begin from easiest to hardest.
-4. Some levels are **Paint mode**: students read bit tokens in cells and paint with the selected colour.
-5. Some levels are **Type bits mode**: the image is already painted and students type binary tokens into each cell.
-6. Students use the side legend (`bits -> colour`) for both modes.
-7. Timer tracks total run time across all levels; **Check** auto-advances when correct.
+2. Read the built-in tutorial and click **Start levels**.
+3. Students decode using the side legend (`bits -> colour`) and paint the large central grid.
+4. First 5 levels include prefilled hint cells; each level gives fewer hints.
+5. Last 3 levels are fully blank (no hints).
+6. Click **Check** to validate; a successful level auto-advances.
+7. Timer shows total run time across all levels.
 
-## Classroom tips
-- Start with level 1 (8x8, 1-bit) and progress in order.
-- Use timer for extension tasks.
-- Turn on colour-blind palette and high contrast mode if needed.
+## Challenge design
+- 8 total levels, escalating in difficulty.
+- 4-colour (2-bit) palette for every level.
+- Success feedback includes a short green flash around the grid.
 
 ## Customisation guide for teachers
 In `app.js`, tweak:
-- Colour palettes in `DEFAULT_PALETTES`.
-- Bit code mapping in `bitCodes()`.
+- Paint colours in `DEFAULT_PALETTES`.
 - Score formula in `checkChallenge()`.
+- Hint distribution in `pickPrefilledIndices()`.
 
 In `puzzles.js`, add/edit puzzle objects:
-- `title`, `size`, `bitDepth`, `cells`.
-
-## Validation included
-- Friendly status/error feedback in the UI.
-- Check compares painted cells with expected level cells.
+- `size`, `bitDepth`, `prefillCount`, `cells`.
 
 ## GitHub Pages deployment
 1. Push to GitHub.
