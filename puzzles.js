@@ -67,13 +67,13 @@ window.BINARY_MOSAIC_PRESETS = (() => {
   };
 
   return [
-    { title: 'Easy 1', size: 8, bitDepth: 2, cells: patterns.checker(8) },
-    { title: 'Easy 2', size: 8, bitDepth: 2, cells: patterns.border(8) },
-    { title: 'Easy 3', size: 8, bitDepth: 2, cells: patterns.diagonal(8) },
-    { title: 'Easy 4', size: 8, bitDepth: 2, cells: patterns.verticalBars(8) },
-    { title: 'Medium 1', size: 12, bitDepth: 2, cells: patterns.stripes(12) },
-    { title: 'Medium 2', size: 12, bitDepth: 2, cells: patterns.blocks(12) },
-    { title: 'Hard 1', size: 16, bitDepth: 2, cells: patterns.checker(16, [0, 1, 2, 3]) },
-    { title: 'Hard 2', size: 16, bitDepth: 2, cells: patterns.ring(16) }
+    { title: 'Easy 1', size: 8, bitDepth: 2, mode: 'paint', cells: patterns.checker(8) },
+    { title: 'Easy 2', size: 8, bitDepth: 2, mode: 'paint', cells: patterns.border(8) },
+    { title: 'Easy 3', size: 8, bitDepth: 2, mode: 'typeBits', cells: patterns.diagonal(8) },
+    { title: 'Easy 4', size: 8, bitDepth: 2, mode: 'paint', cells: patterns.verticalBars(8) },
+    { title: 'Medium 1', size: 12, bitDepth: 2, mode: 'paint', cells: patterns.stripes(12) },
+    { title: 'Medium 2', size: 12, bitDepth: 2, mode: 'typeBits', cells: patterns.blocks(12) },
+    { title: 'Hard 1', size: 16, bitDepth: 2, mode: 'paint', cells: patterns.checker(16, [0, 1, 2, 3]) },
+    { title: 'Hard 2', size: 16, bitDepth: 2, mode: 'typeBits', cells: patterns.ring(16) }
   ];
 })();

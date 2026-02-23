@@ -12,10 +12,10 @@ Binary Mosaic is a static, browser-only classroom decode game for teaching binar
 1. Open `index.html` in any modern browser.
 2. Read the built-in tutorial in the Decode panel.
 3. Click **Start levels** to begin from easiest to hardest.
-4. Students read bit tokens shown directly in each canvas cell.
-5. Students use the side legend (`bits -> colour`) and pick their current paint colour (none of the paint colours are white).
-6. Students click cells to paint and reveal the image.
-7. Click **Check**; correct answers auto-advance to the next level.
+4. Some levels are **Paint mode**: students read bit tokens in cells and paint with the selected colour.
+5. Some levels are **Type bits mode**: the image is already painted and students type binary tokens into each cell.
+6. Students use the side legend (`bits -> colour`) for both modes.
+7. Timer tracks total run time across all levels; **Check** auto-advances when correct.
 
 ## Classroom tips
 - Start with level 1 (8x8, 1-bit) and progress in order.

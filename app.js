@@ -15,16 +15,19 @@
     decode: {
       levelIndex: -1,
       size: 8,
-      bitDepth: 1,
+      bitDepth: 2,
+      modeType: 'paint', // paint | typeBits
       targetCells: [],
       playerCells: [],
       bitTokens: [],
+      bitInputs: [],
       selectedValue: 0,
       cursorIndex: 0,
       mode: 'idle',
       timerEnabled: true,
-      startedAt: null,
-      timerId: null
+      runStartedAt: null,
+      timerId: null,
+      completed: false
     }
   };
 
@@ -56,33 +59,32 @@
 
   function setStatus(target, message, isError = false) {
     target.textContent = message;
-    target.style.color = isError ? '#b91c1c' : '';
+    target.style.color = isError ? '#ef4444' : '';
   }
 
-  function createGridCells(size, cells, wrongIndexes = new Set(), labels = []) {
-    el.decodeGrid.style.setProperty('--grid-size', size);
-    el.decodeGrid.innerHTML = '';
-    const palette = getPalette(state.decode.bitDepth);
-
-    for (let idx = 0; idx < cells.length; idx++) {
-      const cell = document.createElement('button');
-      cell.className = 'pixel-cell';
-      if (idx === state.decode.cursorIndex) cell.classList.add('cursor');
-      if (wrongIndexes.has(idx)) cell.classList.add('wrong');
-      cell.style.background = palette[cells[idx]] || '#fff';
-      cell.textContent = labels[idx] || '';
-      if (labels[idx]) {
-        cell.classList.add('token-cell');
-        cell.classList.toggle('token-dark', cells[idx] > 0);
-      }
-      cell.addEventListener('click', () => {
-        if (state.decode.mode !== 'challenge') return;
-        state.decode.playerCells[idx] = state.decode.selectedValue;
-        state.decode.cursorIndex = idx;
-        renderDecodeGrid();
-      });
-      el.decodeGrid.appendChild(cell);
+  function updateTimerDisplay() {
+    if (!state.decode.runStartedAt || !state.decode.timerEnabled) {
+      el.timerOutput.textContent = 'Total timer: 0s';
+      return;
     }
+    const elapsed = Math.floor((Date.now() - state.decode.runStartedAt) / 1000);
+    el.timerOutput.textContent = `Total timer: ${elapsed}s`;
+  }
+
+  function startRunTimer() {
+    clearInterval(state.decode.timerId);
+    if (!state.decode.timerEnabled || !state.decode.runStartedAt || state.decode.completed) {
+      updateTimerDisplay();
+      return;
+    }
+    updateTimerDisplay();
+    state.decode.timerId = setInterval(updateTimerDisplay, 500);
+  }
+
+  function flashSuccess() {
+    el.decodeGrid.classList.remove('level-success');
+    void el.decodeGrid.offsetWidth;
+    el.decodeGrid.classList.add('level-success');
   }
 
   function renderDecodeLegend() {
@@ -106,6 +108,7 @@
       btn.className = `palette-chip ${state.decode.selectedValue === value ? 'selected' : ''}`;
       btn.style.background = color;
       btn.title = `Paint colour ${value}`;
+      btn.disabled = state.decode.modeType === 'typeBits';
       btn.addEventListener('click', () => {
         state.decode.selectedValue = value;
         renderPaintPalette();
@@ -114,25 +117,68 @@
     });
   }
 
-  function startTimer() {
-    clearInterval(state.decode.timerId);
-    if (!state.decode.timerEnabled || state.decode.mode !== 'challenge') {
-      el.timerOutput.textContent = 'Timer: 0s';
-      return;
+  function renderPaintGrid(wrongIndexes = new Set()) {
+    const palette = getPalette(state.decode.bitDepth);
+    el.decodeGrid.style.setProperty('--grid-size', state.decode.size);
+    el.decodeGrid.innerHTML = '';
+
+    for (let idx = 0; idx < state.decode.playerCells.length; idx++) {
+      const cell = document.createElement('button');
+      cell.className = 'pixel-cell token-cell';
+      if (idx === state.decode.cursorIndex) cell.classList.add('cursor');
+      if (wrongIndexes.has(idx)) cell.classList.add('wrong');
+      cell.style.background = palette[state.decode.playerCells[idx]];
+      cell.textContent = state.decode.bitTokens[idx] || '';
+      cell.classList.toggle('token-dark', state.decode.playerCells[idx] > 0);
+      cell.addEventListener('click', () => {
+        if (state.decode.mode !== 'challenge') return;
+        state.decode.playerCells[idx] = state.decode.selectedValue;
+        state.decode.cursorIndex = idx;
+        renderDecodeGrid();
+      });
+      el.decodeGrid.appendChild(cell);
     }
-    state.decode.startedAt = Date.now();
-    state.decode.timerId = setInterval(() => {
-      const elapsed = Math.floor((Date.now() - state.decode.startedAt) / 1000);
-      el.timerOutput.textContent = `Timer: ${elapsed}s`;
-    }, 500);
+  }
+
+  function renderTypeBitsGrid(wrongIndexes = new Set()) {
+    const palette = getPalette(state.decode.bitDepth);
+    el.decodeGrid.style.setProperty('--grid-size', state.decode.size);
+    el.decodeGrid.innerHTML = '';
+
+    for (let idx = 0; idx < state.decode.targetCells.length; idx++) {
+      const wrap = document.createElement('div');
+      wrap.className = 'pixel-cell bit-entry-cell';
+      if (wrongIndexes.has(idx)) wrap.classList.add('wrong');
+      wrap.style.background = palette[state.decode.targetCells[idx]];
+
+      const input = document.createElement('input');
+      input.className = 'bit-entry-input';
+      input.maxLength = state.decode.bitDepth;
+      input.value = state.decode.bitInputs[idx] || '';
+      input.inputMode = 'numeric';
+      input.pattern = '[01]*';
+      input.addEventListener('input', () => {
+        input.value = input.value.replace(/[^01]/g, '').slice(0, state.decode.bitDepth);
+        state.decode.bitInputs[idx] = input.value;
+      });
+
+      wrap.appendChild(input);
+      el.decodeGrid.appendChild(wrap);
+    }
+  }
+
+  function renderDecodeGrid(wrongIndexes = new Set()) {
+    if (state.decode.modeType === 'typeBits') renderTypeBitsGrid(wrongIndexes);
+    else renderPaintGrid(wrongIndexes);
   }
 
   function loadLevel(index) {
     if (index >= window.BINARY_MOSAIC_PRESETS.length) {
+      state.decode.completed = true;
       clearInterval(state.decode.timerId);
-      state.decode.mode = 'idle';
+      updateTimerDisplay();
       el.levelStatus.textContent = 'All levels complete.';
-      setStatus(el.decodeStatus, '🎉 You completed all levels!');
+      setStatus(el.decodeStatus, `🎉 Challenge run complete in ${el.timerOutput.textContent.replace('Total timer: ', '')}`);
       return;
     }
 
@@ -141,51 +187,69 @@
     state.decode.levelIndex = index;
     state.decode.size = preset.size;
     state.decode.bitDepth = preset.bitDepth;
+    state.decode.modeType = preset.mode || 'paint';
     state.decode.targetCells = [...preset.cells];
     state.decode.playerCells = Array(preset.size * preset.size).fill(0);
     state.decode.bitTokens = preset.cells.map((value) => codes[value]);
+    state.decode.bitInputs = Array(preset.size * preset.size).fill('');
     state.decode.selectedValue = 0;
     state.decode.cursorIndex = 0;
     state.decode.mode = 'challenge';
 
-    el.levelStatus.textContent = `Level ${index + 1} of ${window.BINARY_MOSAIC_PRESETS.length}`;
+    const modeLabel = state.decode.modeType === 'typeBits' ? 'Type bits mode' : 'Paint mode';
+    el.levelStatus.textContent = `Level ${index + 1} of ${window.BINARY_MOSAIC_PRESETS.length} — ${modeLabel}`;
     el.scoreOutput.textContent = '';
     renderDecodeLegend();
     renderPaintPalette();
     renderDecodeGrid();
-    startTimer();
-    setStatus(el.decodeStatus, 'Decode using the side legend and your selected paint colour.');
+    setStatus(el.decodeStatus, state.decode.modeType === 'typeBits'
+      ? 'Enter the correct binary token in each coloured cell, then press Check.'
+      : 'Decode using the side legend and your selected paint colour.');
   }
 
-  function renderDecodeGrid(wrongIndexes) {
-    createGridCells(state.decode.size, state.decode.playerCells, wrongIndexes, state.decode.bitTokens);
-  }
-
-  function checkChallenge() {
-    if (state.decode.mode !== 'challenge') return setStatus(el.decodeStatus, 'Press Start levels first.', true);
-
+  function checkPaintChallenge() {
     let correct = 0;
     const wrong = new Set();
     state.decode.playerCells.forEach((value, idx) => {
       if (value === state.decode.targetCells[idx]) correct += 1;
       else wrong.add(idx);
     });
+    return { correct, wrong, total: state.decode.targetCells.length };
+  }
 
-    const pct = Math.round((correct / state.decode.targetCells.length) * 100);
-    const elapsed = state.decode.startedAt ? Math.floor((Date.now() - state.decode.startedAt) / 1000) : 0;
+  function checkTypeBitsChallenge() {
+    let correct = 0;
+    const wrong = new Set();
+    state.decode.bitInputs.forEach((value, idx) => {
+      if (value === state.decode.bitTokens[idx]) correct += 1;
+      else wrong.add(idx);
+    });
+    return { correct, wrong, total: state.decode.bitTokens.length };
+  }
+
+  // Teacher tweak: scoring formula
+  function checkChallenge() {
+    if (state.decode.mode !== 'challenge') return setStatus(el.decodeStatus, 'Press Start levels first.', true);
+
+    const result = state.decode.modeType === 'typeBits' ? checkTypeBitsChallenge() : checkPaintChallenge();
+    const pct = Math.round((result.correct / result.total) * 100);
+    const elapsed = state.decode.runStartedAt ? Math.floor((Date.now() - state.decode.runStartedAt) / 1000) : 0;
     const score = Math.max(0, Math.round(pct * 10 - elapsed));
-    el.scoreOutput.textContent = `Correct: ${pct}% (${correct}/${state.decode.targetCells.length}) | Time: ${elapsed}s | Score: ${score}`;
 
-    if (el.showMistakesToggle.checked) renderDecodeGrid(wrong);
+    el.scoreOutput.textContent = `Correct: ${pct}% (${result.correct}/${result.total}) | Total time: ${elapsed}s | Score: ${score}`;
+    if (el.showMistakesToggle.checked) renderDecodeGrid(result.wrong);
+
     if (pct === 100) {
-      setStatus(el.decodeStatus, 'Correct! Moving to next level...');
-      setTimeout(() => loadLevel(state.decode.levelIndex + 1), 700);
+      flashSuccess();
+      setStatus(el.decodeStatus, '✅ Level complete! Moving to next level...');
+      setTimeout(() => loadLevel(state.decode.levelIndex + 1), 900);
     } else {
       setStatus(el.decodeStatus, 'Not correct yet. Fix highlighted cells and check again.', true);
     }
   }
 
   function handleKeyboard(event) {
+    if (state.decode.modeType === 'typeBits') return;
     const size = state.decode.size;
     const row = Math.floor(state.decode.cursorIndex / size);
     const col = state.decode.cursorIndex % size;
@@ -206,23 +270,23 @@
   function bindEvents() {
     el.startLevelsBtn.addEventListener('click', () => {
       if (el.decodeTutorial.open) el.decodeTutorial.open = false;
+      state.decode.completed = false;
+      state.decode.runStartedAt = Date.now();
+      startRunTimer();
       loadLevel(0);
     });
 
     el.startChallengeBtn.addEventListener('click', () => {
       if (state.decode.levelIndex < 0) return setStatus(el.decodeStatus, 'Start levels first.', true);
-      state.decode.playerCells = Array(state.decode.size * state.decode.size).fill(0);
-      state.decode.mode = 'challenge';
-      renderDecodeGrid();
-      startTimer();
-      setStatus(el.decodeStatus, 'Level reset. Decode the bitstream again.');
+      loadLevel(state.decode.levelIndex);
+      setStatus(el.decodeStatus, 'Level reset. Try again.');
     });
 
     el.checkChallengeBtn.addEventListener('click', checkChallenge);
 
     el.timerToggle.addEventListener('change', () => {
       state.decode.timerEnabled = el.timerToggle.checked;
-      startTimer();
+      startRunTimer();
     });
 
     el.colorBlindToggle.addEventListener('change', () => {
@@ -242,12 +306,14 @@
   function init() {
     state.decode.playerCells = Array(state.decode.size * state.decode.size).fill(0);
     state.decode.bitTokens = Array(state.decode.size * state.decode.size).fill('');
+    state.decode.bitInputs = Array(state.decode.size * state.decode.size).fill('');
     bindEvents();
     renderDecodeLegend();
     renderPaintPalette();
     renderDecodeGrid();
     el.levelStatus.textContent = 'Read the tutorial, then press Start levels.';
     setStatus(el.decodeStatus, 'Tutorial first, then start level 1.');
+    updateTimerDisplay();
   }
 
   init();
