@@ -170,3 +170,27 @@ textarea, select, button {
   border-radius: 4px;
   display: inline-block;
 }
+
+
+.tutorial-box {
+  border: 1px solid var(--grid-line);
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.8rem;
+  background: color-mix(in srgb, var(--panel) 88%, var(--accent) 12%);
+}
+
+.tutorial-box summary {
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.tutorial-box ol {
+  margin: 0.5rem 0 0 1.1rem;
+  padding: 0;
+}
+
+.tutorial-box li {
+  margin-bottom: 0.35rem;
+}

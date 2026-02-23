@@ -19,6 +19,7 @@ Binary Mosaic is a static, browser-only classroom game for teaching binary image
 3. In **Decode/Challenge**:
    - Paste a legend and bitstream.
    - Legend format is `binary=value`, e.g. `0=0`, `1=1` for 1-bit, or `00=0`, `01=1`, `10=2`, `11=3` for 2-bit.
+   - Use the built-in **Decode Challenge Tutorial** panel for step-by-step pupil instructions.
    - Use **Render from bits** to decode directly.
    - Use **Rebuild challenge** so pupils reconstruct on an empty grid and click **Check**.
 
