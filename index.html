@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Binary Mosaic</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Binary Mosaic</h1>
+    <p>Create, encode, decode, and challenge classmates with binary pixel art.</p>
+  </header>
+
+  <main>
+    <nav class="tab-bar" aria-label="Main sections">
+      <button class="tab-button active" data-tab="encodeTab">Create/Encode</button>
+      <button class="tab-button" data-tab="decodeTab">Decode/Challenge</button>
+    </nav>
+
+    <section id="encodeTab" class="tab-panel active" aria-labelledby="Create/Encode">
+      <div class="panel-grid">
+        <section class="panel controls">
+          <h2>Create/Encode</h2>
+          <label>
+            Grid size
+            <select id="encodeGridSize">
+              <option value="8">8 x 8</option>
+              <option value="12">12 x 12</option>
+              <option value="16" selected>16 x 16</option>
+            </select>
+          </label>
+
+          <fieldset>
+            <legend>Palette size</legend>
+            <label><input type="radio" name="encodeBitDepth" value="1" checked /> 2 colours (1-bit)</label>
+            <label><input type="radio" name="encodeBitDepth" value="2" /> 4 colours (2-bit)</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Tools</legend>
+            <div class="tool-row">
+              <button id="toolPaint" class="active">Paint</button>
+              <button id="toolEraser">Eraser</button>
+              <button id="fillAllBtn">Fill all</button>
+              <button id="clearGridBtn">Clear grid</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Colours</legend>
+            <div id="encodePalette" class="palette-row" aria-label="Choose paint colour"></div>
+          </fieldset>
+
+          <button id="generateBtn">Generate Legend + Bitstream</button>
+          <button id="copyExportBtn">Copy Legend + Bitstream</button>
+          <button id="copyShareCodeBtn">Copy Share Code</button>
+          <button id="copyShareLinkBtn">Copy Share Link</button>
+
+          <div class="help-row">
+            <details>
+              <summary>What is a bitstream? <span class="help-icon">?</span></summary>
+              <p>A bitstream is the binary data for every pixel in order. 1-bit uses 0/1 per pixel; 2-bit uses 00/01/10/11.</p>
+            </details>
+            <details>
+              <summary>What is row-major order? <span class="help-icon">?</span></summary>
+              <p>Read each row from left to right, then move to the next row top-to-bottom.</p>
+            </details>
+            <details>
+              <summary>Why do 4 colours need 2 bits? <span class="help-icon">?</span></summary>
+              <p>Two bits can represent four values: 00, 01, 10, and 11.</p>
+            </details>
+          </div>
+          <p id="encodeStatus" class="status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section class="panel">
+          <h3>Canvas</h3>
+          <div id="encodeGrid" class="pixel-grid" tabindex="0" aria-label="Encode drawing grid"></div>
+        </section>
+
+        <section class="panel output">
+          <h3>Legend</h3>
+          <textarea id="legendOutput" rows="7" readonly></textarea>
+          <h3>Bitstream</h3>
+          <label><input id="lineBreakRows" type="checkbox" checked /> Add line breaks per row</label>
+          <textarea id="bitstreamOutput" rows="10" readonly></textarea>
+          <h3>Share Code</h3>
+          <textarea id="shareCodeOutput" rows="5" readonly></textarea>
+        </section>
+      </div>
+    </section>
+
+    <section id="decodeTab" class="tab-panel" aria-labelledby="Decode/Challenge">
+      <div class="panel-grid">
+        <section class="panel controls">
+          <h2>Decode/Challenge</h2>
+          <label>
+            Preset puzzle
+            <select id="presetPuzzleSelect">
+              <option value="">-- choose puzzle --</option>
+            </select>
+          </label>
+
+          <label>
+            Legend input
+            <textarea id="legendInput" rows="5" placeholder="00=#000000\n01=#ffffff"></textarea>
+          </label>
+
+          <label>
+            Bitstream input
+            <textarea id="bitstreamInput" rows="7" placeholder="010101..."></textarea>
+          </label>
+
+          <label>
+            Import Share Code
+            <textarea id="shareCodeInput" rows="4" placeholder="Paste share code here"></textarea>
+          </label>
+
+          <div class="tool-row">
+            <button id="renderBitsBtn">Render from bits</button>
+            <button id="startChallengeBtn">Rebuild challenge</button>
+            <button id="checkChallengeBtn">Check</button>
+            <button id="importShareBtn">Import share code</button>
+          </div>
+
+          <fieldset>
+            <legend>Challenge controls</legend>
+            <label><input id="timerToggle" type="checkbox" checked /> Enable timer</label>
+            <label><input id="showMistakesToggle" type="checkbox" checked /> Highlight incorrect cells</label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Accessibility</legend>
+            <label><input id="colorBlindToggle" type="checkbox" /> Colour-blind-friendly palette</label>
+            <label><input id="highContrastToggle" type="checkbox" /> High contrast mode</label>
+          </fieldset>
+
+          <p id="decodeStatus" class="status" role="status" aria-live="polite"></p>
+          <p id="scoreOutput" class="status" aria-live="polite"></p>
+        </section>
+
+        <section class="panel">
+          <h3>Decoded target / Challenge board</h3>
+          <div id="decodeGrid" class="pixel-grid" tabindex="0" aria-label="Decode grid"></div>
+          <p id="timerOutput">Timer: 0s</p>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="puzzles.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
